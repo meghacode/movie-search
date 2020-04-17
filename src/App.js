@@ -1,26 +1,67 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{Component} from 'react';
 import './App.css';
+import MovieRow from './MovieRow';
+import $ from 'jquery';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {}
+    this.performSearch();
+
+    }
+    performSearch (page) {
+
+      const url = "https://api.themoviedb.org/3/discover/movie?api_key=9f4f5f0ba5aceae4d41f722823266e8c&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page="+page;
+      $.ajax({
+        
+        url : url,
+        success : (searchReasult) =>{
+          const result =searchReasult.results;
+          const movieRows = [];
+          result.forEach((movie) => {
+            movie.poster_src="http://image.tmdb.org/t/p/w185/"+movie.poster_path;
+            movie.backdrop_path = "http://image.tmdb.org/t/p/w185/" +movie.backdrop_path;
+            const movieRow = <MovieRow key={movie.id} movie = {movie} />
+            movieRows.push(movieRow)
+            
+          });
+          this.setState({rows:movieRows})
+        },
+        error : (xhr,status,err) => {
+          console.log("sgdfugdsuhgfois")
+
+        }
+
+      })
+
+    }
+
+    searchChangehandler(event) {
+      console.log(event.target.value)
+      this.performSearch(event.target.value)
+    }
+    render() {
+    return (
+      <div className="App">
+      <table className = "titleBar">
+        <tr>
+          <td>
+            <img width ="50" src = "src/moviw.png"/>
+          </td>
+          <td width = "8"/>
+          <td>
+            <h3 style ={{color:"lightgreen"}}>MovieDB search</h3>
+          </td>
+        </tr>
+      </table>
+      <input className ="searchBar" placeholder = "Enter page Number"  onChange= {this.searchChangehandler.bind(this)} />
+      {this.state.rows}
     </div>
-  );
+    
+       
+    );
+  }
 }
 
 export default App;
