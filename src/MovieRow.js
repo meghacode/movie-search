@@ -19,7 +19,6 @@ class MovieRow extends Component {
                     <td>
                         <h3 style ={{color:"red"}}>{this.props.movie.title}</h3>
                         <p style ={{color:"green"}}>{this.props.movie.overview}</p>
-                    
                     <td><input type = "button" value = "view" className="button" onClick={this.showMovie.bind(this)}/></td>    
                     </td>
                     </tr>

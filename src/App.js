@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import './App.css';
 import MovieRow from './MovieRow';
 import $ from 'jquery';
+import download from './download.png';
 
 class App extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class App extends Component {
       <table className = "titleBar">
         <tr>
           <td>
-            <img width ="50" src = "src/moviw.png"/>
+            <img src = {download} width ="50"/>
           </td>
           <td width = "8"/>
           <td>
